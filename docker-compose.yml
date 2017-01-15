@@ -1,0 +1,54 @@
+version: '2'
+
+## NOTES:
+# if you see ${SOME_VAR} in this file,
+# these values are taken from .env file
+
+#########################
+#          DEV          #
+#########################
+
+services:
+    app:
+        build:
+            context: ./Docker/
+            args:
+                - "DOCKER_USER=${DOCKER_USER}"
+                - "NODE_PORT=${NODE_PORT}"
+        container_name: app
+        restart: "${RESTART_POLICIES}"
+        links:
+            - "database:database"
+        volumes:
+            - ".:/home/docker:rw"
+        working_dir: "/home/docker"
+        user: "${DOCKER_USER}"
+        ports:
+            - "${NODE_PORT}:3000"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: myadmin
+        restart: "${RESTART_POLICIES}"
+        environment:
+            - "PMA_HOST=database"
+            - "PMA_USER=${MYSQL_USER}"
+            - "PMA_PASSWORD=${MYSQL_PASSWORD}"
+        ports:
+            - "${PMA_PORT}:80"
+        depends_on:
+            - "database"
+
+    database:
+        image: mysql:5.7
+        container_name: database
+        restart: "${RESTART_POLICIES}"
+        environment:
+            - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+            - "MYSQL_USER=${MYSQL_USER}"
+            - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+            - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+        ports:
+            - "${MYSQL_PORT}:3306"
+        volumes:
+          - "./.data/database:/var/lib/mysql"

@@ -1,0 +1,24 @@
+{
+  "name": "achatexpress",
+  "description": "TP G4 ISMP PRO",
+  "homepage": "https://github.com/Djls007/Achatexpress#readme",
+  "version": "1.0.0",
+  "author": "Djls007",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Djls007/Achatexpress.git"
+  },
+  "main": "app.js",
+  "scripts": {
+    "bower": "bower",
+    "pm2": "pm2"
+  },
+  "dependencies": {
+    "bower": "^1.8.0",
+    "express": "^4.14.0",
+    "mysql": "^2.12.0",
+    "pm2": "^2.2.3",
+    "twig": "^0.10.3"
+  }
+}
